@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <section>
+                    <section>
+                        <h2>1、图片压扁的问题</h2>
+                        <img width="500"  data-src="images/1.jpg" alt="Down arrow" />
+                    </section>
+
+                    <section>
+                        <h2> 事件经过 </h2>
+                        <ol>
+                            <li class="fragment fade-up">开始采用img 设置src方式</li>
+                            <li class="fragment fade-up">发现图片变形，采用 background-size: cover</li>
+                            <li class="fragment fade-up">图片大小是138 * 128， 自己没发现变形</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>重温background-size的属性</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>属性</th>
+                                    <th>解释</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>length | percentage</td>
+                                    <td>
+                                        <span>
+                                        第一个值设置宽度，第二个值设置高度。 如果只设置一个值，则第二个值会被设置为 "auto"。
+                                    </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cover</td>
+                                    <td>
+                                        <span>把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。</span>
+                                        <span>背景图像的某些部分也许无法显示在背景定位区域中。</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>contain</td>
+                                    <td>
+                                        <span>把图像图像扩展至最大尺寸，以使其宽度和高度完全适应内容区域。</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section data-background-color="#fff">
+                        <h2>试验一下</h2>
+                        <iframe style="width: 100%;min-height: 200px" data-src="./demo/background.html"></iframe>
+                    </section>
+                    <section data-markdown>
+                        ## 个人总结
+                        1. 细读设计稿，并及时沟通
+                        2. 针对头像图片，一般宽高相等
+                        3. 不固定比例图片，选用背景cover或者contain
+                    </section>
+                </section>
+                <!-- 第二页-->
+                <section>
+                    <section>
+                        <h2>2、替换广告图片不生效</h2>
+                        <img width="500"  data-src="images/2.jpg" alt="img" />
+                    </section>
+                    <section>
+                        <h2>事件经过 </h2>
+                        <ol>
+                            <li class="fragment fade-up">考虑elves项目，采用替换图片方法</li>
+                            <li class="fragment fade-up">打包构建项目，本地测试OK（浏览器）</li>
+                            <li class="fragment fade-up">线上测试，浏览器OK </li>
+                            <li class="fragment fade-up">pm告知微信中尚未变化</li>
+                            <li class="fragment fade-up">莫非是微信缓存了整个html?</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>翻看代码</h2>
+                        <pre><code data-trim>
+                            <a id="ad-signup" href="javascript:;" class="signup">
+                               <img src="{{staticBaseImage('/mobile/ad01.jpg')}}" class="ad" alt="signup">
+                            </a>
+                        </code></pre>
+                        <p class="fragment fade-up" style="color: red">一时间竟没发现问题!</p>
+                    </section>
+                    <section>
+                        <h2>打开网页看调试工具</h2>
+                        <pre><code data-trim>
+                            <a id="ad-signup" href="javascript:;" class="signup">
+                                <img src="/static/images//mobile/ad01.jpg" class="ad" alt="signup">
+                            </a>
+                        </code></pre>
+                        <p class="fragment fade-up" style="color: red">原来是没写成CDN的路径!！</p>
+                        <p class="fragment fade-up">
+                            <img data-src="images/2.fix.png" alt="img" />
+                        </p>
+                    </section>
+                    <section>
+                        <h2>个人总结 </h2>
+                        <ol>
+                            <li class="fragment fade-up">小的修改也往往更需要细心</li>
+                            <li class="fragment fade-up">上线验证,页面OK，代码层面也需验证</li>
+                            <li class="fragment fade-up">发现问题，从自己身上找问题 </li>
+                            <li class="fragment fade-up">注意命名，图片最好不要ad打头，容易被block </li>
+                        </ol>
+                    </section>
+                </section>
+                <!--第三页 -->
+                <section>
+                    <section>
+                        <h2>3、IE下的编辑器手柄</h2>
+                        <img width="500"  data-src="images/3.png" alt="img" />
+                    </section>
+                    <section>
+                        <h2> 事件经过 </h2>
+                        <ol>
+                            <li class="fragment fade-up">某次"优(fix)化(bug)"编辑器功能😋</li>
+                            <li class="fragment fade-up">之后琪总反馈IE下有问题😅</li>
+                            <li class="fragment fade-up">纳尼😱？JS没改过啊!</li>
+                            <li class="fragment fade-up">于是自己写一个干净的页面，未发现问题，IE说这锅我不背!😇</li>
+                            <li class="fragment fade-up">这货看着像编辑手柄，快谷歌一下咋回事🤔</li>
+                            <li class="fragment fade-up">终于发现是这个<a target="_blank" href="https://stackoverflow.com/questions/3603050/remove-resize-handles-and-border-from-elements-with-contenteditable">问题！</a>😊</li>
+                        </ol>
+                    </section>
+                    <section data-markdown>
+                        ## 可以触发hasLayout的css属性
+                        * position: absolute
+                        * float (left or right)
+                        * width or height (any value other than auto)
+                        * min-width or min-height (any value other than none)
+                        * overflow (hidden | scroll | auto)
+                        * zoom (any value other than normal)
+                        * display: inline-block
+                        * write-mode: tb-rl;
+                    </section>
+                    <section data-markdown>
+                        ## 可以触发BFC的css属性
+                        * position的值不为static或则releative中的任何一个
+                        * float的值不为none
+                        * overflow的值不为visible
+                        * display的值为table-cell、tabble-caption和inline-block之一
+                    </section>
+                    <section data-markdown>
+                        ## BFC的布局规则
+                        * 浮动的元素会被父级计算高度（父级触发了BFC）
+                        * 非浮动元素不会覆盖浮动元素位置（非浮动元素触发了BFC）
+                        * margin不会传递给父级（父级触发了BFC）
+                        * 两个相邻元素上下margin会重叠（给其中一个元素增加一个父级，然后让他的父级触发BFC）
+                    </section>
+
+                    <section>
+                        <h2> 查看代码修复代码 </h2>
+                        <img width="100%"  data-src="images/3.fix.png" alt="Down arrow" />
+                    </section>
+                    <section>
+                        <h2>个人总结 </h2>
+                        <ol>
+                            <li class="fragment fade-up">兼容IE需要回归</li>
+                            <li class="fragment fade-up">IE坑多，那也得解决</li>
+                        </ol>
+                    </section>
+                </section>
+
+                <!-- 第四页 -->
+                <section>
+                    <section>
+                        <h2>4、Display:none的元素 after伪类 生效</h2>
+                    </section>
+                </section>
+
+                <!-- 第五页 -->
+                <section>
+                    <section>
+                        <h2>5、suggest 组件优化</h2>
+                    </section>
+                </section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); }},
+                    // Zoom in and out with Alt+click
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                ]
+			});
+		</script>
+	</body>
+</html>

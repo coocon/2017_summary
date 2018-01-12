@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js – The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="../css/theme/white.css" id="theme">
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+        <style>
+        ul,li {
+            list-style: none;
+        }
+        body {
+            width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .code {
+                float: left;
+                width: 200px;
+        }
+        .result {
+            float: left;
+            width: 600px;
+        }
+        #demoimg {
+            float: left;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            background-image: url(../images/avatar.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+        #CodeValue {
+            font-weight: bold;
+            font-size: 12px;
+            color: red;
+        }
+        #CodeArea {
+            margin-top: 50px;
+            width: 400px;
+            float: left;
+        }
+        </style>
+	</head>
+	<body>
+        <div class="code">
+            <form action="javascript:return false;">
+                <ul>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="200px 200px">200px 200px</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="100%">100%</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="300px 225px">300px 225px</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="200px">200px</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="50%">50%</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="100% 100%">100% 100%</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="cover" checked>cover</li>
+                    <li><input autocomplete="off" type="radio" name="rpos" onclick="test_demo(this)" value="contain">contain</li>
+                </ul>
+            </form>
+        </div>
+        <div class="result">
+            <div id="demoimg">
+            </div>
+            <pre id="CodeArea">
+       div#DemoArea
+        {
+            background-image:url('../images/avatar.jpg');
+            background-repeat:no-repeat;
+            background-size:<span id="CodeValue">cover</span>;
+        }
+            </pre>
+                    </div>
+        <script>
+            var res = document.getElementById('CodeValue');
+            var img = document.getElementById('demoimg');
+            function test_demo(ele) {
+                var value = ele.value;
+                res.innerHTML = value;
+                img.style.backgroundSize = value;
+            }
+        </script>
+    </body>
+</html>
+
